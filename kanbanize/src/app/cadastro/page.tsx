@@ -59,6 +59,7 @@ export default function CadastroPage() {
           placeholder="Senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
+          showToggle={true}
         />
 
         <Input
@@ -66,6 +67,7 @@ export default function CadastroPage() {
           placeholder="Confirmar senha"
           value={confirmarSenha}
           onChange={(e) => setConfirmarSenha(e.target.value)}
+          showToggle={true}
         />
 
         <FormButton label="Cadastrar" />
