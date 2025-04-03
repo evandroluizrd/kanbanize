@@ -36,7 +36,7 @@ export default function CadastroPage() {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded p-6 w-full max-w-md"
       >
-        <h1 className="text-2xl font-bold mb-4 text-center">Cadastro</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">Cadastro</h1>
 
         <ErrorMessage message={erro} />
 
@@ -72,7 +72,7 @@ export default function CadastroPage() {
 
         <FormButton label="Cadastrar" />
 
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-4 text-blue-600">
           Já tem conta?{' '}
           <Link href="/login" className="text-blue-600 hover:underline">
             Faça login

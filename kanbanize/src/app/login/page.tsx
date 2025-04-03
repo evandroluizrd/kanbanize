@@ -29,7 +29,7 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded p-6 w-full max-w-md"
       >
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">Login</h1>
 
         <ErrorMessage message={erro} />
 
@@ -49,7 +49,7 @@ export default function LoginPage() {
 
         <FormButton label="Entrar" />
 
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-4 text-blue-600">
           Não tem conta?{' '}
           <Link href="/cadastro" className="text-blue-600 hover:underline">
             Cadastre-se

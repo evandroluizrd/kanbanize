@@ -27,7 +27,7 @@ export default function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full p-2 border rounded pr-10"
+        className="w-full p-2 border rounded pr-10 text-blue-600"
       />
       {showToggle && (
         <span
