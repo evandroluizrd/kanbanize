@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; 
 import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
 import ErrorMessage from '../../components/ErrorMessage';
@@ -11,18 +12,32 @@ export default function LoginPage() {
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const router = useRouter();
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
     if (!email || !senha) {
       setErro('Preencha todos os campos.');
       return;
     }
-
-    setErro('');
-    alert('Login enviado!');
+  
+    try {
+      const res = await fetch(`http://localhost:3001/usuarios?email=${email}&senha=${senha}`);
+      const data = await res.json();
+  
+      if (data.length > 0) {
+        // Simula persistência com localStorage
+        localStorage.setItem('usuario', JSON.stringify(data[0]));
+        router.push('/home');
+      } else {
+        setErro('Email ou senha incorretos.');
+      }
+    } catch (error) {
+      setErro('Erro ao conectar com o servidor.');
+      console.error(error);
+    }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <form

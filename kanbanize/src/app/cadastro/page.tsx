@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
 import ErrorMessage from '../../components/ErrorMessage';
@@ -12,8 +13,15 @@ export default function CadastroPage() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [erro, setErro] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  
+  const senhaForte = (senha: string): boolean => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return regex.test(senha);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!nome || !email || !senha || !confirmarSenha) {
@@ -26,8 +34,44 @@ export default function CadastroPage() {
       return;
     }
 
-    setErro('');
-    alert('Cadastro enviado!');
+    if (!senhaForte(senha)) {
+      setErro('A senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial.');
+      return;
+    }
+
+    try {
+      const checkEmail = await fetch(`http://localhost:3001/usuarios?email=${email}`);
+      const existingEmail = await checkEmail.json();
+
+      if (existingEmail.length > 0) {
+        setErro('Este email já está cadastrado.');
+        return;
+      }
+
+      const checkNome = await fetch(`http://localhost:3001/usuarios?nome=${encodeURIComponent(nome)}`);
+      const existingNome = await checkNome.json();
+
+      if (existingNome.length > 0) {
+        setErro('Este nome de usuário já está em uso.');
+        return;
+      }
+
+      const res = await fetch('http://localhost:3001/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, senha })
+      });
+
+      if (res.ok) {
+        setErro('');
+        router.push('/login');
+      } else {
+        setErro('Erro ao cadastrar. Tente novamente.');
+      }
+    } catch (error) {
+      setErro('Erro na comunicação com o servidor.');
+      console.error(error);
+    }
   };
 
   return (
