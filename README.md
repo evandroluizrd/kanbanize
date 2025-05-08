@@ -23,6 +23,8 @@ Iniciar servidor json
 json-server --watch db.json --port 3001
 
 Instalar Calendario
+
 npm install date-fns
+
 npm install react-big-calendar
 
