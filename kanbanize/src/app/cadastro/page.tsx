@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
 import ErrorMessage from '../../components/ErrorMessage';
+import PasswordStrengthBar from '../../components/PasswordStrengthBar';
+
 
 export default function CadastroPage() {
   const [nome, setNome] = useState('');
@@ -81,7 +83,18 @@ export default function CadastroPage() {
         className="bg-white shadow-md rounded p-6 w-full max-w-md"
       >
         <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">Cadastro</h1>
-
+        <div className="flex justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-3xl font-bold shadow">
+            {nome
+            ? nome
+            .trim()
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            : <i className="fas fa-user" />}
+      </div>
+      </div>
         <ErrorMessage message={erro} />
 
         <Input
@@ -105,6 +118,8 @@ export default function CadastroPage() {
           onChange={(e) => setSenha(e.target.value)}
           showToggle={true}
         />
+
+        <PasswordStrengthBar senha={senha} />
 
         <Input
           type="password"
