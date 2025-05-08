@@ -28,3 +28,4 @@ npm install date-fns
 
 npm install react-big-calendar
 
+npm install lucide-react
