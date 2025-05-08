@@ -1,8 +1,8 @@
-
 'use client';
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import NotificationModal from '@/components/NotificationModal';
 
 export default function HomePage() {
   const router = useRouter();
@@ -13,9 +13,14 @@ export default function HomePage() {
       router.push('/login');
     }
   }, [router]);
-  
+
   const handleLogout = () => {
+    localStorage.removeItem('usuario');
     router.push('/login'); 
+  };
+
+  const goToKanban = () => {
+    router.push('/kanban');
   };
 
   return (
@@ -25,16 +30,26 @@ export default function HomePage() {
           Bem-vindo(a)!
         </h1>
         <p className="text-gray-700 mb-6">
-          Que bom ter você por aqui. Esperamos que sua experiência seja incrível!
+          Que bom ter você por aqui. Sua jornada começa agora!
         </p>
 
-        <button
-          onClick={handleLogout}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Sair
-        </button>
+        <div className="flex flex-col gap-4">
+          <button
+            onClick={goToKanban}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          >
+            Ir para o Kanban
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+          >
+            Sair
+          </button>
+        </div>
       </div>
+      <NotificationModal />
     </div>
   );
 }
