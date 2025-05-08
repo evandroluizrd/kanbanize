@@ -23,6 +23,10 @@ export default function HomePage() {
     router.push('/kanban');
   };
 
+  const goToCalendario = () => {
+    router.push('/calendario'); 
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-50 px-4">
       <div className="bg-white shadow-md rounded p-6 w-full max-w-md text-center">
@@ -39,6 +43,13 @@ export default function HomePage() {
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
           >
             Ir para o Kanban
+          </button>
+
+          <button
+            onClick={goToCalendario} 
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          >
+            Ir para o Calendário
           </button>
 
           <button
