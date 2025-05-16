@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ajuste geral do sistema */
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: theme('colors.background');
+  color: theme('colors.textPrimary');
+  font-family: theme('fontFamily.sans');
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: theme('colors.textPrimary');
+  letter-spacing: -0.02em;
+}
+
+/* Textos */
+p, span, label {
+  color: theme('colors.textSecondary');
+  font-size: 0.95rem;
+}
+
+/* Inputs */
+input, textarea, select {
+  @apply border border-gray-300 rounded-xl px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary;
+  font-size: 0.95rem;
+}
+
+/* Botões principais */
+button {
+  @apply bg-primary text-white font-semibold py-2 px-4 rounded-2xl hover:bg-secondary transition;
+}
+
+/* Botões alternativos */
+button.bg-red-500 {
+  @apply text-white font-semibold py-2 px-4 rounded-2xl hover:bg-red-600 transition;
+}
