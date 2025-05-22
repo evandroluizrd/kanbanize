@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { useModal } from '@/contexts/modal'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -28,7 +29,10 @@ const initialEvents = [
     },
 ]
 
-export default function App() {
+export default function Calendario() {
+
+    const modal = useModal()
+
     const [events, setEvents] = useState(initialEvents)
 
     const handleSelectSlot = ({ start, end }: any) => {
