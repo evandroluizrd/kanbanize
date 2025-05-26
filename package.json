@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "kanbanize": "file:",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-big-calendar": "^1.18.0",
