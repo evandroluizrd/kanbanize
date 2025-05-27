@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { useModal } from '@/contexts/modal'
+import { useModal } from '@/contexts'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -41,6 +41,10 @@ export default function Calendario() {
             setEvents([...events, { start, end, title }])
         }
     }
+
+    useEffect(() => {
+        modal.set({ toggle: true })
+    }, [])
 
     return (
         <div 

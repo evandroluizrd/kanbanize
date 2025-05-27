@@ -22,6 +22,7 @@ const ModalProviderContainer = ({ children }: { children: React.ReactNode }) => 
                 set: setConfig
             }}
         >
+            {children}
             {!!config.toggle && <Modal {...config} />}
         </ModalContext.Provider>
     )
