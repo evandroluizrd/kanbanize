@@ -23,58 +23,48 @@ export default function CadastroPage() {
     return regex.test(senha);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!nome || !email || !senha || !confirmarSenha) {
-      setErro('Preencha todos os campos.');
-      return;
+  const trimmedNome = nome.trim();
+  const trimmedEmail = email.trim().toLowerCase();
+
+  if (!trimmedNome || !trimmedEmail || !senha || !confirmarSenha) {
+    setErro('Preencha todos os campos.');
+    return;
+  }
+
+  if (senha !== confirmarSenha) {
+    setErro('As senhas não coincidem.');
+    return;
+  }
+
+  if (!senhaForte(senha)) {
+    setErro('A senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial.');
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:3001/api/cadastro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome: trimmedNome, email: trimmedEmail, senha })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setErro('');
+      router.push('/login');
+    } else {
+      setErro(data.erro || 'Erro ao cadastrar. Tente novamente.');
     }
+  } catch (error) {
+    setErro('Erro na comunicação com o servidor.');
+    console.error(error);
+  }
+};
 
-    if (senha !== confirmarSenha) {
-      setErro('As senhas não coincidem.');
-      return;
-    }
-
-    if (!senhaForte(senha)) {
-      setErro('A senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial.');
-      return;
-    }
-
-    try {
-      const checkEmail = await fetch(`http://localhost:3001/usuarios?email=${email}`);
-      const existingEmail = await checkEmail.json();
-
-      if (existingEmail.length > 0) {
-        setErro('Este email já está cadastrado.');
-        return;
-      }
-
-      const checkNome = await fetch(`http://localhost:3001/usuarios?nome=${encodeURIComponent(nome)}`);
-      const existingNome = await checkNome.json();
-
-      if (existingNome.length > 0) {
-        setErro('Este nome de usuário já está em uso.');
-        return;
-      }
-
-      const res = await fetch('http://localhost:3001/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email, senha })
-      });
-
-      if (res.ok) {
-        setErro('');
-        router.push('/login');
-      } else {
-        setErro('Erro ao cadastrar. Tente novamente.');
-      }
-    } catch (error) {
-      setErro('Erro na comunicação com o servidor.');
-      console.error(error);
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

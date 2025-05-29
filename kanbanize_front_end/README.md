@@ -1,12 +1,10 @@
-# kanbanize
+Comandos importantes :
 
-Comandos importantes :	
-
-Criar projeto Next 
+Criar projeto Next
 
 npx create-next-app@latest kanbanize
 
-Instalar ícones 
+Instalar ícones
 
 npm install react-icons
 
@@ -29,3 +27,5 @@ npm install date-fns
 npm install react-big-calendar
 
 npm install lucide-react
+
+

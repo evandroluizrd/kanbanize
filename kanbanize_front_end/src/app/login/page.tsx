@@ -15,32 +15,37 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!email || !senha) {
-      setErro('Preencha todos os campos.');
-      return;
+  if (!email || !senha) {
+    setErro('Preencha todos os campos.');
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const res = await fetch('http://localhost:3001/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), senha: senha.trim() })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem('usuario', JSON.stringify(data));
+      router.push('/home');
+    } else {
+      setErro(data.erro || 'Email ou senha incorretos.');
     }
-
-    setLoading(true);
-    try {
-      const res = await fetch(`http://localhost:3001/usuarios?email=${email}&senha=${senha}`);
-      const data = await res.json();
-
-      if (data.length > 0) {
-        localStorage.setItem('usuario', JSON.stringify(data[0]));
-        router.push('/home');
-      } else {
-        setErro('Email ou senha incorretos.');
-      }
-    } catch (error) {
-      setErro('Erro ao conectar com o servidor.');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    setErro('Erro ao conectar com o servidor.');
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
