@@ -5,10 +5,10 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());                 // Permite conexões do frontend
-app.use(express.json());        // Lê JSON no corpo das requisições
+app.use(cors());                 
+app.use(express.json());       
 
-app.use('/api', authRoutes);    // Rota base: /api/login e /api/cadastro
+app.use('/api', authRoutes);    
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
