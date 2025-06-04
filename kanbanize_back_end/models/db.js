@@ -41,20 +41,8 @@ const createTables = async () => {
         data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         data_vencimento DATE,
         prioridade_id INTEGER NOT NULL,
-        coluna_id INTEGER NOT NULL,
-        usuario_id INTEGER NOT NULL,
-        CONSTRAINT fk_prioridade
-            FOREIGN KEY (prioridade_id)
-            REFERENCES prioridades(id)
-            ON DELETE RESTRICT,
-        CONSTRAINT fk_coluna
-            FOREIGN KEY (coluna_id)
-            REFERENCES colunas(id)
-            ON DELETE RESTRICT,
-        CONSTRAINT fk_usuario
-            FOREIGN KEY (usuario_id)
-            REFERENCES usuarios(id)
-            ON DELETE CASCADE
+        coluna_id INTEGER NULL,
+        usuario_id INTEGER NOT NULL
       );
 
       CREATE TABLE IF NOT EXISTS notificacoes (
@@ -74,8 +62,6 @@ const createTables = async () => {
     console.log('Tabelas criadas com sucesso!');
   } catch (err) {
     console.error('Erro ao criar tabelas:', err);
-  } finally {
-    await pool.end();
   }
 };
 
