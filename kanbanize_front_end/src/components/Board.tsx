@@ -5,12 +5,12 @@ import { Column } from "./Column";
 import TaskModal from "./TaskModal";
 
 export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  status: string;
-  priority: "baixa" | "média" | "alta" | "urgente";
+  id?: string;
+  title?: string;
+  description?: string;
+  date?: string;
+  status?: string;
+  priority?: "baixa" | "média" | "alta" | "urgente";
 }
 
 export const Board: React.FC = () => {

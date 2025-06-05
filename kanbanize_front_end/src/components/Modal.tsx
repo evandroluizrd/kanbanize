@@ -4,7 +4,6 @@ export default function Modal(props: any) {
             <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative animate-fadeIn">
                 <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
-                    // onClick={onClose}
                 >
                     &times;
                 </button>
@@ -12,7 +11,6 @@ export default function Modal(props: any) {
                 <h2 className="text-xl font-semibold mb-4 text-gray-500">Nova Tarefa</h2>
 
                 <form 
-                    // onSubmit={handleSubmit} 
                     className="space-y-4"
                 >
                     <div className="text-gray-400">
@@ -21,8 +19,6 @@ export default function Modal(props: any) {
                             name="title"
                             type="text"
                             required
-                            // value={form.title}
-                            // onChange={handleChange}
                             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
@@ -32,8 +28,6 @@ export default function Modal(props: any) {
                         <textarea
                             name="description"
                             rows={3}
-                            // value={form.description}
-                            // onChange={handleChange}
                             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
@@ -44,8 +38,6 @@ export default function Modal(props: any) {
                             name="date"
                             type="date"
                             required
-                            // value={form.date}
-                            // onChange={handleChange}
                             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
@@ -54,8 +46,6 @@ export default function Modal(props: any) {
                         <label className="block text-sm font-medium text-gray-700">Prioridade</label>
                         <select
                             name="priority"
-                            // value={form.priority}
-                            // onChange={handleChange}
                             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="baixa">Baixa</option>

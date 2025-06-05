@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { useModal } from '@/contexts'
+import { getTasks, crateTask } from '@/api/task'
+import TaskModal from '@/components/TaskModal'
+import moment from 'moment'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -16,35 +18,34 @@ const localizer = dateFnsLocalizer({
     locales: { 'pt-BR': ptBR },
 })
 
-const initialEvents = [
-    {
-        title: 'Reunião de Equipe',
-        start: new Date(2025, 4, 7, 10, 0),
-        end: new Date(2025, 4, 7, 11, 0),
-    },
-    {
-        title: 'Apresentação do Projeto',
-        start: new Date(2025, 4, 9, 14, 0),
-        end: new Date(2025, 4, 9, 15, 0),
-    },
-]
-
 export default function Calendario() {
 
-    const modal = useModal()
+    const [tasks, setTasks] = useState([])
+    const [modal, setModal] = useState({ toggle: false, content: {} })
 
-    const [events, setEvents] = useState(initialEvents)
+    const handleSelectSlot = ({ start }: any) => {
+        setModal({ toggle: true, content: { date: moment(start).utc().format("YYYY-MM-DD") } })
+    }
 
-    const handleSelectSlot = ({ start, end }: any) => {
-        const title = window.prompt('Título do novo evento:')
-        if (title) {
-            setEvents([...events, { start, end, title }])
-        }
+    const getTasksContent = async () => {
+        const tasks = await getTasks({})
+        setTasks(tasks.content)
     }
 
     useEffect(() => {
-        modal.set({ toggle: true })
-    }, [])
+        getTasksContent()
+    }, [getTasksContent])
+
+    const createTask = async (data: any) => {
+        await crateTask({
+            title: data.title,
+            description: data.description,
+            date: data.date,
+            idPriority: 1,
+            idUser: 1,
+        })
+        await getTasksContent()
+    }
 
     return (
         <div 
@@ -54,11 +55,17 @@ export default function Calendario() {
                 background: "#fff" 
             }}
         >
+            {!!modal.toggle && 
+                <TaskModal
+                    task={modal.content}
+                    onClose={() => setModal({ toggle: false, content: {} })}
+                    onSave={createTask}
+                />}
             <Calendar
                 selectable
                 onSelectSlot={handleSelectSlot}
                 localizer={localizer}
-                events={events}
+                tasks={tasks}
                 startAccessor="start"
                 endAccessor="end"
                 culture="pt-BR"
