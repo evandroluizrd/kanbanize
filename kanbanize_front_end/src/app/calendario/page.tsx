@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { getTasks, crateTask } from '@/api/task'
 import TaskModal from '@/components/TaskModal'
 import moment from 'moment'
+import _ from 'lodash'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -20,17 +21,22 @@ const localizer = dateFnsLocalizer({
 
 export default function Calendario() {
 
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = useState<any>([])
     const [modal, setModal] = useState({ toggle: false, content: {} })
 
-    const handleSelectSlot = ({ start }: any) => {
-        setModal({ toggle: true, content: { date: moment(start).utc().format("YYYY-MM-DD") } })
-    }
-
-    const getTasksContent = async () => {
-        const tasks = await getTasks({})
-        setTasks(tasks.content)
-    }
+    const getTasksContent = useCallback(async () => {
+        const tasks: any = await getTasks({})
+        setTasks(_.map(tasks.content, (data) => ({
+            id: data.id,
+            title: data.titulo,
+            description: data.descricao,
+            status: data.status,
+            priority: data.prioridade_id,
+            date: moment(data.data_vencimento).utc().format("YYYY-MM-DD"),
+            start: moment(data.data_vencimento).toDate(),
+            end: moment(data.data_vencimento).toDate(),
+        })))
+    }, [])
 
     useEffect(() => {
         getTasksContent()
@@ -47,6 +53,14 @@ export default function Calendario() {
         await getTasksContent()
     }
 
+    const handleSelectSlot = ({ start }: any) => {
+        setModal({ toggle: true, content: { date: moment(start).utc().format("YYYY-MM-DD") } })
+    }
+
+    const handleSelectEvent = (event: any) => {
+        setModal({ toggle: true, content: event })
+    }
+    
     return (
         <div 
             style={{ 
@@ -63,12 +77,24 @@ export default function Calendario() {
                 />}
             <Calendar
                 selectable
+                onSelectEvent={handleSelectEvent}
                 onSelectSlot={handleSelectSlot}
                 localizer={localizer}
-                tasks={tasks}
+                events={tasks}
                 startAccessor="start"
                 endAccessor="end"
                 culture="pt-BR"
+                eventPropGetter={(event) => {
+                    return {
+                        style: {
+                            backgroundColor: event.color || '#2b7fff',
+                            color: 'white',
+                            borderRadius: '5px',
+                            border: 'none',
+                            display: 'block',
+                        },
+                    };
+                }}
                 style={{ height: '100%', color: "#333" }}
                 messages={{
                     next: 'Próximo',
