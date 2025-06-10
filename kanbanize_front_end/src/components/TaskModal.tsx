@@ -16,8 +16,10 @@ const TaskModal: React.FC<Props> = ({ task, onClose, onSave }) => {
     status: task?.status ?? "todo",
     priority: task?.priority ?? "baixa",
   });
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -27,12 +29,11 @@ const TaskModal: React.FC<Props> = ({ task, onClose, onSave }) => {
 
     const taskToSave = task ? { ...task, ...form } : { ...form, id: generateId() };
 
-    onSave(taskToSave);
-    onClose(); // Fecha o modal após salvar
+    onSave(taskToSave); // O fechamento é controlado no Board
   };
 
   const generateId = (): string => {
-    return Math.random().toString(36).substr(2, 9); // Gerar um id simples para novas tarefas
+    return Math.random().toString(36).substr(2, 9);
   };
 
   return (
@@ -45,7 +46,9 @@ const TaskModal: React.FC<Props> = ({ task, onClose, onSave }) => {
         >
           ✕
         </button>
-        <h2 className="text-xl font-semibold mb-4">{task?.id ? "Editar Tarefa" : "Nova Tarefa"}</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          {task?.id ? "Editar Tarefa" : "Nova Tarefa"}
+        </h2>
         <input
           name="title"
           value={form.title}

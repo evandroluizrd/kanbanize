@@ -73,8 +73,11 @@ export default function Calendario() {
                 <TaskModal
                     task={modal.content}
                     onClose={() => setModal({ toggle: false, content: {} })}
-                    onSave={createTask}
-                />}
+                    onSave={async (task) => {
+                        await createTask(task);
+                        setModal({ toggle: false, content: {} });
+                }}
+            />}
             <Calendar
                 selectable
                 onSelectEvent={handleSelectEvent}
