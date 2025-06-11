@@ -9,3 +9,8 @@ export async function crateTask(body: any) {
     const { data } = await api.post("task", body)
     return data
 }
+
+export async function updateTask(id: string, body: any) {
+    const { data } = await api.put(`task/${id}`, body)
+    return data
+}

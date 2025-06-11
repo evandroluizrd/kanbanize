@@ -26,44 +26,6 @@ export const Board: React.FC = () => {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [modalTask, setModalTask] = useState<Task | null>(null);
 
-  const mapPriority = (priority: Task["priority"]): number => {
-    switch (priority) {
-      case "urgente": return 1;
-      case "alta": return 2;
-      case "média": return 3;
-      case "baixa": return 4;
-      default: return 4;
-    }
-  };
-
-  const mapPriorityReverse = (id: number): Task["priority"] => {
-    switch (id) {
-      case 1: return "urgente";
-      case 2: return "alta";
-      case 3: return "média";
-      case 4: return "baixa";
-      default: return "baixa";
-    }
-  };
-
-  const mapColumn = (status: string): number => {
-    switch (status) {
-      case "todo": return 1;
-      case "in-progress": return 2;
-      case "done": return 3;
-      default: return 1;
-    }
-  };
-
-  const mapColumnReverse = (id: number): string => {
-    switch (id) {
-      case 1: return "todo";
-      case 2: return "in-progress";
-      case 3: return "done";
-      default: return "todo";
-    }
-  };
-
   const fetchTasks = async () => {
     try {
       const res = await fetch("http://localhost:3001/task");
@@ -76,8 +38,8 @@ export const Board: React.FC = () => {
         title: task.titulo,
         description: task.descricao,
         date: task.data_vencimento?.split("T")[0] || "",
-        status: mapColumnReverse(task.coluna_id),
-        priority: mapPriorityReverse(task.prioridade_id),
+        status: task.situacao,
+        priority: task.prioridade,
       }));
 
       setTasks(parsedTasks);
@@ -104,8 +66,8 @@ export const Board: React.FC = () => {
       title: form.title,
       description: form.description || "-",
       date: form.date,
-      idPriority: mapPriority(form.priority),
-      idColumn: mapColumn(form.status),
+      priority: form.priority,
+      status: form.status,
       idUser: 1,
     };
 
@@ -138,8 +100,8 @@ export const Board: React.FC = () => {
       title: taskToUpdate.title,
       description: taskToUpdate.description || "-",
       date: taskToUpdate.date,
-      idPriority: mapPriority(taskToUpdate.priority),
-      idColumn: mapColumn(newStatus),
+      priority: taskToUpdate.priority,
+      status: newStatus,
     };
 
     try {
@@ -180,8 +142,8 @@ export const Board: React.FC = () => {
       title: updatedTask.title,
       description: updatedTask.description || "-",
       date: updatedTask.date,
-      idPriority: mapPriority(updatedTask.priority),
-      idColumn: mapColumn(updatedTask.status),
+      priority: updatedTask.priority,
+      status: updatedTask.status,
     };
 
     try {
