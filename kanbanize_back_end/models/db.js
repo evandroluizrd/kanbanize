@@ -40,7 +40,8 @@ const createTables = async () => {
         descricao TEXT,
         data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         data_vencimento DATE,
-        prioridade_id INTEGER NOT NULL,
+        situacao VARCHAR(100) NOT NULL,
+        prioridade VARCHAR(100) NOT NULL,
         coluna_id INTEGER NULL,
         usuario_id INTEGER NOT NULL
       );
