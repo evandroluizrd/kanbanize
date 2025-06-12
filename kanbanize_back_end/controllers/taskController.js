@@ -37,6 +37,7 @@ class Task {
             priority: Joi.string().required(),
             status: Joi.string().required(),
             idColumn: Joi.number(),
+            idUser: Joi.number()
         }).validateAsync(data)
 
         await pool.query(`
@@ -56,7 +57,8 @@ class Task {
             date: Joi.string().isoDate(),
             priority: Joi.string(),
             status: Joi.string(),
-            idColumn: Joi.number()
+            idColumn: Joi.number(),
+            idUser: Joi.number()
         }).validateAsync(data)
 
         const task = await this.find(id)
