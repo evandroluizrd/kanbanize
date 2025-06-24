@@ -21,13 +21,6 @@ const createTables = async () => {
         atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
-      CREATE TABLE IF NOT EXISTS prioridades (
-        id SERIAL PRIMARY KEY,
-        nome VARCHAR(20) NOT NULL UNIQUE,
-        cor VARCHAR(7),
-        peso INTEGER NOT NULL
-      );
-
       CREATE TABLE IF NOT EXISTS colunas (
         id SERIAL PRIMARY KEY,
         nome VARCHAR(50) NOT NULL UNIQUE,
@@ -40,7 +33,8 @@ const createTables = async () => {
         descricao TEXT,
         data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         data_vencimento DATE,
-        prioridade_id INTEGER NOT NULL,
+        situacao VARCHAR(100) NOT NULL,
+        prioridade VARCHAR(100) NOT NULL,
         coluna_id INTEGER NULL,
         usuario_id INTEGER NOT NULL
       );

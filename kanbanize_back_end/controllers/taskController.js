@@ -34,15 +34,16 @@ class Task {
             title: Joi.string().required(),
             description: Joi.string().required(),
             date: Joi.string().isoDate().required(),
-            idPriority: Joi.number().required(),
+            status: Joi.string().required(),
+            priority: Joi.string().required(),
             idColumn: Joi.number(),
             idUser: Joi.number().required(),
         }).validateAsync(data)
 
         await pool.query(`
-            INSERT INTO tarefas (titulo, descricao, data_criacao, data_vencimento, prioridade_id, coluna_id, usuario_id)
-            VALUES ($1, $2, CURRENT_TIMESTAMP, $3, $4, $5, $6)
-        `, [body.title, body.description, body.date, body.idPriority, body.idColumn, body.idUser])
+            INSERT INTO tarefas (titulo, descricao, data_criacao, data_vencimento, situacao, prioridade, coluna_id, usuario_id)
+            VALUES ($1, $2, CURRENT_TIMESTAMP, $3, $4, $5, $6, $7)
+        `, [body.title, body.description, body.date, body.status, body.priority, body.idColumn, body.idUser])
 
         return { status: 201, message: "Tarefa criada com sucesso!" }
     }
@@ -54,7 +55,8 @@ class Task {
             title: Joi.string(),
             description: Joi.string(),
             date: Joi.string().isoDate(),
-            idPriority: Joi.number(),
+            status: Joi.string(),
+            priority: Joi.string(),
             idColumn: Joi.number(),
         }).validateAsync(data)
 
@@ -67,10 +69,11 @@ class Task {
                 titulo = $2, 
                 descricao = $3,
                 data_vencimento = $4, 
-                prioridade_id = $5, 
-                coluna_id = $6
+                situacao = $5,
+                prioridade = $6, 
+                coluna_id = $7
             WHERE id = $1
-        `, [id, body.title, body.description, body.date, body.idPriority, body.idColumn])
+        `, [id, body.title, body.description, body.date, body.status, body.priority, body.idColumn])
 
         return { status: 200, message: "Tarefa atualizada com sucesso!" }
     }
